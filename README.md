@@ -7,7 +7,9 @@ I make this project using DjangoFrameWork
 
 Let's take example :
 ## कती राम्रो घडी [positive]
+
 ##कती नाम्रो सामन्[negative]
+
 ##ठिकै हो[neutral]  
 
 
