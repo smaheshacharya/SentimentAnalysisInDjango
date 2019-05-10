@@ -1,4 +1,4 @@
-# Sentiment Analysis Of European Football
+# नेपाली वाक्यहरुको भावनत्मक विस्लेसण
 
 This is sentiment Analysis of nepali text using core python programming language using naive byes classification algorithm.
 
@@ -6,11 +6,12 @@ I am only using 100 data for initial stage  collect from different nepali news s
 I make this project using DjangoFrameWork
 
 Let's take example :
-## कती राम्रो घडी [positive]
 
-##कती नाम्रो सामन्[negative]
+ कती राम्रो घडी [positive]
 
-##ठिकै हो[neutral]  
+कती नाम्रो सामन्[negative]
+
+ठिकै हो[neutral]  
 
 
 # Requirements
