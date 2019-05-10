@@ -1,0 +1,130 @@
+{%extends 'base/base.html'%}
+
+
+<script type="text/javascript">
+
+
+{%block jquery%}
+
+//var endpoint = '/api/chart/data/' //for api data which is it;s url
+var endpoint = '/api/data/'
+var default_data = []
+var labels = []
+$.ajax({
+  method : "GET",
+  url : endpoint,
+  success:function(data){
+    labels = data.labels
+    accuracy = data.default
+    // string_labels = JSON.stringify(labels)
+    // string_accuracy = JSON.stringify(accuracy)
+    console.log(accuracy)
+    document.getElementById("precision").innerHTML = accuracy[0]*100+" %";
+    document.getElementById("recall").innerHTML = accuracy[1]*100+" %";
+    document.getElementById("f_score").innerHTML = accuracy[2]*100+" %";
+  },
+  error:function(error_data){
+    console.log("error")
+    console.log("error_data")
+  }
+
+  })
+
+
+{%endblock%}
+</script>
+  {% block content %}
+{% load static%}
+  <body>
+    <div class="container">
+      <div class="row">
+<h2 style="text-align:center; color:red; opacity:.7;">नेपाली वाक्यहरुको  भावनत्मक विस्लेसण :)</h4>
+      </div>
+
+    </div>
+    <div class="container">
+      <div class="row">
+<h3 style="text-align:center; color:blue; opacity:.7;">सकारत्मक, नकारत्मक, तटस्थ </h3>
+      </div>
+
+    </div>
+    <div class="container">
+      <div class="row">
+<hr>      </div>
+
+    </div>
+    <div class="container">
+      <div class="row">
+  <div class="col-md-4 col-sm-6 col-xs-12">
+<img style="width:100px;height:auto;" src="{% static 'img/pos.png' %}" alt="positive">
+  </div>
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <img style="width:100px;height:auto;margin-left:120px " src="{% static 'img/neg.png' %}" alt="negative">
+
+  </div>
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <img style="width:100px;height:auto;margin-left:200px" src="{% static 'img/neu.png' %}" alt="neutrl">
+
+  </div>
+      </div>
+      <div class="row">
+<hr>      </div>
+<center>
+<div class="row">
+  <h3 style="color:red; font-weight:bold; font-size:20px; text-decoration:underline;">Accuracy In Training</h3>
+ </div>
+      <div class="row">
+
+        <h5 style="color:red; font-weight:bold;">Precision:<p style="font-style:italic; color:blue;" id="precision"></p></h5><br>
+        <h5 style="color:red; font-weight:bold;">Recall:<p style="font-style:italic; color:blue;" id="recall"></p></h5> <br>
+        <h5 style="color:red; font-weight:bold; ">F_Measure:<p style="font-style:italic; color:blue;" id="f_score"></p></h5>
+
+      </div>
+    </center>
+        <div class="row">
+  <hr>      </div>
+
+
+      <div class="row">
+        <form class="form-group" action="index.html" method="post">
+          <label for="sentences" style="color:blue; font-size: 30px; text-align:center; opacity:.6;">वाक्य इन्पुट दिनुहोस  </label>
+          <input type="text" name="sentences" value="" id="sentences" class="form-control">
+          <input style="margin-top:10px;" type="submit" name="submit" id="submit" value="विस्लेसण" class="btn btn-primary" >
+        </form>
+
+      </div>
+    </div>
+    <hr>
+  <div class="container">
+    <div class="row">
+<div class="col-md-6 col-sm-6 col-xs-6">
+  <canvas id="myChart" width="50" height="30"></canvas>
+
+</div>
+    </div>
+
+  </div>
+  <div class="footer">
+    <div class="row">
+
+
+  <center style="height: 50px;width: 100%; background-color: red; color: white; text-align: center; font-weight: bold; padding: 10px" id="date">
+
+
+  </center>
+
+
+
+    </div>
+
+  </div>
+    	<script type="text/javascript">
+
+  		var d = new Date();
+document.getElementById("date").innerHTML = "All Right Reserved "+d.getFullYear();
+
+  	</script>
+</body>
+
+
+{%endblock%}
