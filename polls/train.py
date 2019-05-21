@@ -24,9 +24,16 @@ each_docs = []
 stop_words_split_final = []
 
 
+#data cleaning method
+def data_preprocessing(string):
+    text = re.sub('\,|\@|\-|\"|\'| \)|\(|\)| \{| \}| \[| \]|!|‘|’|“|”| \:-|\?|।|/|\—', '', string)
+    return text
+
+
 def split_doc():
     for data in first_col:
-        each_docs = data.split()
+        return_string = data_preprocessing(data)
+        each_docs = return_string.split()
         data_with_split.append(each_docs)
     return data_with_split  # it returns arr of each docs with spleted words
 
@@ -231,3 +238,23 @@ predict_result = TrainData.predict(feature_array_test)
 #calculate precision recall and f measure
 # print(final_labels.shape)
 # print(predict.shape)
+# {doc1:{word1:count1},{word2:count2}}
+
+# >>> d = {}
+# >>> d['dict1'] = {}
+# >>> d['dict1']['innerkey'] = 'value'
+# >>> d
+# {'dict1': {'innerkey': 'value'}}
+dict_for_idf = {}
+
+def count_each_word_each_doc():
+    i = 1
+    for each_line_for_idf in word_lists:
+        dict_for_idf[i] = {}
+        count_each_word_for_idf = Counter(each_line_for_idf) 
+        for each_word_of_line_for_idf in each_line_for_idf:
+            count_for_idf = count_each_word_for_idf.get(each_word_of_line_for_idf)
+            dict_for_idf[i][each_word_of_line_for_idf] = count_for_idf
+        i = i+1 
+    return dict_for_idf
+dict_for_idf_final = count_each_word_each_doc()
