@@ -15,34 +15,65 @@ with open('classify_data.pickle', 'rb') as pickle_saved_data:
 def index(request):
     return render(request,'index.html')
 
-def get_data(request ,*arg,**kwargs):
-    naive_byes_test = GaussianNB()
-    TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
+def testfunction(request ,*arg,**kwarg):
+    if request.method == "GET":
+        data_from = request.GET["test_data"]
+        test_percent = int(data_from)
+        features, labels, array_length = feature_labels()
+        features_taken_len = int(array_length * test_percent / 100)  # 80% of data make for train 20% remening data for testing
+        feature_array_train = features[:features_taken_len]  # 80% of data make for train 20% remening data for testing
+        labels_array_train = labels[:features_taken_len]
+        feature_array_test = features[features_taken_len:]  # 80% of data make for train 20% remening data for testing
+        labels_array_test =  labels[features_taken_len:]
+        naive_byes = GaussianNB()  # create  object  from  GaussianNb  class
+        TrainData = naive_byes.fit(feature_array_train, labels_array_train)
+
+        classifier_data = open("classify_data.pickle", "wb")
+        pickle.dump(TrainData, classifier_data)
+        classifier_data.close()
+        naive_byes_test = GaussianNB()
+        TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
+        predict_result = TrainData.predict(feature_array_test)
+        dict_for_idf = {}
+        def count_each_word_each_doc():
+            i = 1
+            for each_line_for_idf in word_lists:
+                dict_for_idf[i] = {}
+                count_each_word_for_idf = Counter(each_line_for_idf)
+                for each_word_of_line_for_idf in each_line_for_idf:
+                    count_for_idf = count_each_word_for_idf.get(each_word_of_line_for_idf)
+                    dict_for_idf[i][each_word_of_line_for_idf] = count_for_idf
+                i = i+1
+            return dict_for_idf
+        dict_for_idf_final = count_each_word_each_doc()
+
+        naive_byes_test = GaussianNB()
+        TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
 
 
-        #predict data using pickle file
-    predict_result = unpickled_data.predict(feature_array_test)
+            #predict data using pickle file
+        predict_result = unpickled_data.predict(feature_array_test)
 
-    #precision
-    precision = metrics.precision_score(predict_result,labels_array_test ,average='weighted')
-    #recall
+        #precision
+        precision = metrics.precision_score(predict_result,labels_array_test ,average='weighted')
+        #recall
 
-    recall = metrics.recall_score(predict_result,labels_array_test,average='weighted')
+        recall = metrics.recall_score(predict_result,labels_array_test,average='weighted')
 
 
-    #f score
+        #f score
 
-    f_score = 2*(precision*recall)/(precision+recall)
+        f_score = 2*(precision*recall)/(precision+recall)
 
-    labels = [  'Precision', 'Recall', 'F-Score']
-    default_items = [precision,recall,f_score]
-    data = {
+        labels = [  'Precision', 'Recall', 'F-Score']
+        default_items = [precision,recall,f_score]
+        data = {
 
-    "labels":labels,
-    "default":default_items,
+        "labels":labels,
+        "default":default_items,
 
-    }
-    return JsonResponse(data)
+        }
+        return JsonResponse(data)
 
 def input_tf(input_data):
 

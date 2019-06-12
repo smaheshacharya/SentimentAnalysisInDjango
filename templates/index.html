@@ -2,17 +2,56 @@
 
 
 <script type="text/javascript">
+$(document).ready(function(){
+    $("select.country").change(function(){
+        var selectedCountry = $(this).children("option:selected").val();
+        alert("You have selected the country - " + selectedCountry);
+    });
 
 
 {%block jquery%}
+// $("select.country").change(function(){
+//     var test = $(this).children("option:selected").val();
+//     // $('#loadingmessage').show();
+//     var url_view = '/test/'
+//     var value = []
+//     $.ajax({
+//       type: "GET",
+//       url: url_view,
+//       data: {
+//         "data_from_form":test
+//       },
+//
+//       success:function(data){
+//         labels = data.labels
+//         accuracy = data.default
+//         // string_labels = JSON.stringify(labels)
+//         // string_accuracy = JSON.stringify(accuracy)
+//
+//         document.getElementById("precision").innerHTML = accuracy[0]*100+" %";
+//         document.getElementById("recall").innerHTML = accuracy[1]*100+" %";
+//         document.getElementById("f_score").innerHTML = accuracy[2]*100+" %";
+//       },
+//       error:function(error_data){
+//         console.log("error")
+//         console.log("error_data")
+//       }
+//     });
+// return false;
+// });
 
-//var endpoint = '/api/chart/data/' //for api data which is it;s url
-var endpoint = '/api/data/'
+// var endpoint = '/api/chart/data/' //for api data which is it;s url
+$("#select").change(function(){
+var test = $("#select option:selected").val();
+var endpoint = '/testfunction/'
 var default_data = []
 var labels = []
 $.ajax({
   method : "GET",
   url : endpoint,
+  data: {
+    "test_data":test
+  },
   success:function(data){
     labels = data.labels
     accuracy = data.default
@@ -25,8 +64,10 @@ $.ajax({
   },
   error:function(error_data){
     console.log("error")
-    console.log("error_data")
+    console.log(error_data)
   }
+
+});
 
 });
 
@@ -118,6 +159,19 @@ theory. Initally we Use three thousand data.}</p>
       <div class="row">
 <hr>      </div>
 <center>
+
+   <div class="row">
+     <div class="form-group">
+       <label style="color:Gray; font-weight:bold; font-size:20px; text-decoration:underline;">Select Test Size In Percent:</label>
+       <select id="select" class="form-control">
+         <option>60</option>
+         <option>70</option>
+         <option>80</option>
+         <option>90</option>
+       </select>
+     </div>
+
+ </div>
 <div class="row">
   <h3 style="color:red; font-weight:bold; font-size:20px; text-decoration:underline;">Accuracy In Training</h3>
  </div>

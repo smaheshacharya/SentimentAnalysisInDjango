@@ -9,8 +9,9 @@ import datetime
 import random
 import sys
 from sklearn import metrics
+import re
 
-
+global labels
 now = str(datetime.datetime.now())
 
 df = pd.read_csv('merge.csv', delimiter=',', names=['Data', 'Label']);
@@ -25,15 +26,15 @@ stop_words_split_final = []
 
 
 #data cleaning method
-def data_preprocessing(string):
-    text = re.sub('\,|\@|\-|\"|\'| \)|\(|\)| \{| \}| \[| \]|!|‘|’|“|”| \:-|\?|।|/|\—', '', string)
-    return text
+#def data_preprocessing(string):
+    #text = re.sub('\,|\@|\-|\"|\'| \)|\(|\)| \{| \}| \[| \]|!|‘|’|“|”| \:-|\?|।|/|\—', '', string)
+    #return text
 
 
 def split_doc():
     for data in first_col:
-        return_string = data_preprocessing(data)
-        each_docs = return_string.split()
+        #return_string = data_preprocessing(data)
+        each_docs = data.split()
         data_with_split.append(each_docs)
     return data_with_split  # it returns arr of each docs with spleted words
 
@@ -181,28 +182,26 @@ def computeTfIdf(Tfvec, Idfvec):
     TfIdf_vec = [a * b for a, b in zip(Tfvec, Idfvec)]
     return TfIdf_vec
 
-
 tfidf_vector_for_each_docs = []
 tfidf_vector_collection = []
 for tf_list, idf_list in zip(tf_vec, idf_vec):  # zip helps to iteration two different collection samultaneously
     tfidf_vector_for_each_docs = computeTfIdf(tf_list, idf_list)
     tfidf_vector_collection.append(tfidf_vector_for_each_docs)
 # make model with sk-learn
-
-features = np.array(tfidf_vector_collection)
-labels_string = np.array(second_col)
-labels_list = [int(int_labels) for int_labels in labels_string]
-labels = np.array(labels_list)
-
-
-array_length = len(features)
+def feature_labels():
+    features = np.array(tfidf_vector_collection)
+    labels_string = np.array(second_col)
+    labels_list = [int(int_labels) for int_labels in labels_string]
+    labels = np.array(labels_list)
+    array_length = len(features)
+    return features,labels,array_length
 # print(type(features))
 
-features_taken_len = int(array_length * 80 / 100)  # 80% of data make for train 20% remening data for testing
-feature_array_train = features[:features_taken_len]  # 80% of data make for train 20% remening data for testing
-labels_array_train = labels[:features_taken_len]
-feature_array_test = features[features_taken_len:]  # 80% of data make for train 20% remening data for testing
-labels_array_test =  labels[features_taken_len:]
+# features_taken_len = int(array_length * 80 / 100)  # 80% of data make for train 20% remening data for testing
+# feature_array_train = features[:features_taken_len]  # 80% of data make for train 20% remening data for testing
+# labels_array_train = labels[:features_taken_len]
+# feature_array_test = features[features_taken_len:]  # 80% of data make for train 20% remening data for testing
+# labels_array_test =  labels[features_taken_len:]
 
 # print(feature_array_train.shape)
 # print(labels_array_train.shape)
@@ -223,38 +222,3 @@ labels_array_test =  labels[features_taken_len:]
 
 # Naive byes classifier sklearn
 #train model
-naive_byes = GaussianNB()  # create  object  from  GaussianNb  class
-TrainData = naive_byes.fit(feature_array_train, labels_array_train)
-
-classifier_data = open("classify_data.pickle", "wb")
-pickle.dump(TrainData, classifier_data)
-classifier_data.close()
-naive_byes_test = GaussianNB()
-TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
-predict_result = TrainData.predict(feature_array_test)
-
-
-
-#calculate precision recall and f measure
-# print(final_labels.shape)
-# print(predict.shape)
-# {doc1:{word1:count1},{word2:count2}}
-
-# >>> d = {}
-# >>> d['dict1'] = {}
-# >>> d['dict1']['innerkey'] = 'value'
-# >>> d
-# {'dict1': {'innerkey': 'value'}}
-dict_for_idf = {}
-
-def count_each_word_each_doc():
-    i = 1
-    for each_line_for_idf in word_lists:
-        dict_for_idf[i] = {}
-        count_each_word_for_idf = Counter(each_line_for_idf) 
-        for each_word_of_line_for_idf in each_line_for_idf:
-            count_for_idf = count_each_word_for_idf.get(each_word_of_line_for_idf)
-            dict_for_idf[i][each_word_of_line_for_idf] = count_for_idf
-        i = i+1 
-    return dict_for_idf
-dict_for_idf_final = count_each_word_each_doc()
