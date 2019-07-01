@@ -31,7 +31,7 @@ stop_words_split_final = []
     #return text
 
 
-def split_doc():
+def SPLITDOCUMENT():
     for data in first_col:
         #return_string = data_preprocessing(data)
         each_docs = data.split()
@@ -39,13 +39,13 @@ def split_doc():
     return data_with_split  # it returns arr of each docs with spleted words
 
 
-word_lists = []
-word_lists = split_doc()
-length_of_docs = len(word_lists)
+word_arrays = []
+word_arrays = SPLITDOCUMENT()
+length_of_docs = len(word_arrays)
 
 
 def individual_words():
-    my_set = set.union(*map(set, word_lists))  # seperate each individual words from data to make matrix
+    my_set = set.union(*map(set, word_arrays))  # seperate each individual words from data to make matrix
     return my_set
 
 
@@ -55,18 +55,18 @@ def set_to_list():
     return convert_into_list
 
 
-individual_word_list = set_to_list()
+individual_word_array = set_to_list()
 
 
 def count_occurence_of_word_vocab():
     my_set = individual_words()
     doc = {}
     word_dict = {}
-    for i in range(len(word_lists)):
-        for word in word_lists[i]:
+    for i in range(len(word_arrays)):
+        for word in word_arrays[i]:
             word_dict = dict.fromkeys(my_set, 0)
 
-    for count_word_value in word_lists:
+    for count_word_value in word_arrays:
         for word in count_word_value:
             if word in word_dict:
                 word_dict[word] += 1
@@ -82,7 +82,7 @@ length_word_dict = len(word_dict)
 def vectorizer_docs(line):
     vectorizer_docs = []
     matrix_doc = []
-    for word in individual_word_list:
+    for word in individual_word_array:
         if word in line:
             vectorizer_docs.append(1)
         else:
@@ -93,7 +93,7 @@ def vectorizer_docs(line):
 
 doc_vec1 = []
 doc_vec2 = []
-for line in word_lists:
+for line in word_arrays:
     doc_vec1 = vectorizer_docs(line)
     doc_vec2.append(doc_vec1)
 # print(doc_vec2)
@@ -116,7 +116,7 @@ def computeTf(docs_list):
 
 tf = []
 tf_vec = []
-for each_line in word_lists:
+for each_line in word_arrays:
     tf = computeTf(each_line)
     tf_vec += tf
 # print("Term Frequency")
@@ -127,12 +127,12 @@ word_dict = count_occurence_of_word_vocab()
 my_set = individual_words()
 
 
-def computeCountDict(word_dict, word_lists):
+def computeCountDict(word_dict, word_arrays):
     countIdfforword = {}
     for i in range(1, len(my_set)):
         countIdfforword = dict.fromkeys(my_set, 0)
     for word, value in word_dict.items():
-        for each_line_item in word_lists:
+        for each_line_item in word_arrays:
             if word in each_line_item:
                 countIdfforword[word] += 1
         # else:
@@ -140,7 +140,7 @@ def computeCountDict(word_dict, word_lists):
     return countIdfforword
 
 
-countIdfforwordvalue = computeCountDict(word_dict, word_lists)
+countIdfforwordvalue = computeCountDict(word_dict, word_arrays)
 
 
 #  #  return no of doc conatin word for each word
@@ -164,7 +164,7 @@ def computeIdf(docs_list):
 
 idf = []
 idf_vec = []
-for each_line in word_lists:
+for each_line in word_arrays:
     idf = computeIdf(each_line)
     idf_vec += idf
 # print("Inverse document frequency")
@@ -178,14 +178,14 @@ for each_line in word_lists:
 TfIdf_vec = []
 
 
-def computeTfIdf(Tfvec, Idfvec):
+def TFIDF(Tfvec, Idfvec):
     TfIdf_vec = [a * b for a, b in zip(Tfvec, Idfvec)]
     return TfIdf_vec
 
 tfidf_vector_for_each_docs = []
 tfidf_vector_collection = []
 for tf_list, idf_list in zip(tf_vec, idf_vec):  # zip helps to iteration two different collection samultaneously
-    tfidf_vector_for_each_docs = computeTfIdf(tf_list, idf_list)
+    tfidf_vector_for_each_docs = TFIDF(tf_list, idf_list)
     tfidf_vector_collection.append(tfidf_vector_for_each_docs)
 # make model with sk-learn
 def feature_labels():

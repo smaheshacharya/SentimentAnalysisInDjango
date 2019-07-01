@@ -37,7 +37,7 @@ def testfunction(request ,*arg,**kwarg):
         dict_for_idf = {}
         def count_each_word_each_doc():
             i = 1
-            for each_line_for_idf in word_lists:
+            for each_line_for_idf in word_arrays:
                 dict_for_idf[i] = {}
                 count_each_word_for_idf = Counter(each_line_for_idf)
                 for each_word_of_line_for_idf in each_line_for_idf:
