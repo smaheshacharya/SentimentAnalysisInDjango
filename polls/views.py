@@ -16,6 +16,8 @@ with open('classify_data.pickle', 'rb') as pickle_saved_data:
 
 
 
+def blog(request):
+    return render(request,'blog.html')
 
 def index(request):
     return render(request,'index.html')

@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from polls import views
-from polls.views import testfunction,predict,comment
+from polls.views import testfunction,predict,comment,blog
 from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
     path('', views.index, name='index'),
+    path('blog/', blog, name='blog'),
     path('admin/', admin.site.urls),
     # path('api/data/', get_data, name='api-data'),
     path('predict/', predict, name='predict-data'),
