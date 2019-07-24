@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path(r'', views.index, name='index'),
     # path('api/data/', get_data, name='api-data'),
     path('predict/', predict, name='predict-data'),
     path('testfunction/', testfunction, name='testfunction-data'),

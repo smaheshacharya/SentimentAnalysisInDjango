@@ -10,37 +10,38 @@ $(document).ready(function(){
 
 
 {%block jquery%}
-// $("select.country").change(function(){
-//     var test = $(this).children("option:selected").val();
-//     // $('#loadingmessage').show();
-//     var url_view = '/test/'
-//     var value = []
-//     $.ajax({
-//       type: "GET",
-//       url: url_view,
-//       data: {
-//         "data_from_form":test
-//       },
-//
-//       success:function(data){
-//         labels = data.labels
-//         accuracy = data.default
-//         // string_labels = JSON.stringify(labels)
-//         // string_accuracy = JSON.stringify(accuracy)
-//
-//         document.getElementById("precision").innerHTML = accuracy[0]*100+" %";
-//         document.getElementById("recall").innerHTML = accuracy[1]*100+" %";
-//         document.getElementById("f_score").innerHTML = accuracy[2]*100+" %";
-//       },
-//       error:function(error_data){
-//         console.log("error")
-//         console.log("error_data")
-//       }
-//     });
-// return false;
-// });
+$("#text_comment").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+        // Do something
+document.getElementById("comment_print").innerHTML = "kslajd";  
+var comment = $("#text_comment").val();
+var endpoint = '/comment/'
+var default_data = []
+var labels = []
+$.ajax({
+  method : "GET",
+  url : endpoint,
+  data: {
+    "test_data":comment
+  },
+  success:function(data){
+    comment = data.comment
+    
+    // string_labels = JSON.stringify(labels)
+    // string_accuracy = JSON.stringify(accuracy)
 
-// var endpoint = '/api/chart/data/' //for api data which is it;s url
+    document.getElementById("precision").innerHTML = accuracy[0]*100+" %";
+  
+    },
+  error:function(error_data){
+    console.log("error")
+    console.log(error_data)
+  }
+
+});
+}
+
+});
 $("#select").change(function(){
 var test = $("#select option:selected").val();
 var endpoint = '/testfunction/'
@@ -167,9 +168,8 @@ theory. Initally we Use four thousand data.}</p>
         <option selected disabled>Choose here</option>
          <option>60</option>
          <option>70</option>
-         <option>80</option>
+         <option>75</option>
          <option>90</option>
-          <option>99</option>
        </select>
      </div>
 
@@ -219,13 +219,21 @@ theory. Initally we Use four thousand data.}</p>
 
 </div>
     </div>
-
+    <div class="col-md-12" >
+      <img style="width:100% ;height:500px; margin: 10px; border-radius: .3em; " class="img-thumbnail" src="{% static 'img/123.jpg' %}" alt="positive">
+      <p style="color: balck; opacity: 0.6; font-size: 20px;">Comments</p>
+      <div class="form-group">
+      <input type="text" name="comment" id="text_comment" class="form-control">
+      </div>
+      <h4 id="comment_print"></h4>
+      <small>kljdsad jdskajd sadjskdjsa</small>
+    </div>
   </div>
   <div class="footer">
     <div class="row">
 
-
-  <center style="height: 50px;width: 100%; background-color: red; color: white; text-align: center; font-weight: bold; padding: 10px" id="date">
+        <!-- <a href="{% url aplication %}" class="btn btn-default">Click here</a> -->
+       <center style="height: 50px;width: 100%; background-color: red; color: white; text-align: center; font-weight: bold; padding: 10px" id="date">
 
 
   </center>

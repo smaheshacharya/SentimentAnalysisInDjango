@@ -12,6 +12,10 @@ from numpyencoder import NumpyEncoder
 # import matplotlib.pyplot as plt
 with open('classify_data.pickle', 'rb') as pickle_saved_data:
     unpickled_data = pickle.load(pickle_saved_data)
+
+
+
+   
 def index(request):
     return render(request,'index.html')
 
@@ -19,11 +23,13 @@ def testfunction(request ,*arg,**kwarg):
     if request.method == "GET":
         data_from = request.GET["test_data"]
         test_percent = int(data_from)
+        # print(test_percent)
         features, labels, array_length = feature_labels()
         features_taken_len = int(array_length * test_percent / 100)  # 80% of data make for train 20% remening data for testing
         feature_array_train = features[:features_taken_len]  # 80% of data make for train 20% remening data for testing
         labels_array_train = labels[:features_taken_len]
         feature_array_test = features[features_taken_len:]  # 80% of data make for train 20% remening data for testing
+        # print(set(feature_array_train)-set(feature_array_test))
         labels_array_test =  labels[features_taken_len:]
         naive_byes = GaussianNB()  # create  object  from  GaussianNb  class
         TrainData = naive_byes.fit(feature_array_train, labels_array_train)
@@ -31,9 +37,6 @@ def testfunction(request ,*arg,**kwarg):
         classifier_data = open("classify_data.pickle", "wb")
         pickle.dump(TrainData, classifier_data)
         classifier_data.close()
-        naive_byes_test = GaussianNB()
-        TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
-        predict_result = TrainData.predict(feature_array_test)
         dict_for_idf = {}
         def count_each_word_each_doc():
             i = 1
@@ -47,24 +50,25 @@ def testfunction(request ,*arg,**kwarg):
             return dict_for_idf
         dict_for_idf_final = count_each_word_each_doc()
 
-        naive_byes_test = GaussianNB()
-        TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
+        # naive_byes_test = GaussianNB()
+        # TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
 
 
             #predict data using pickle file
         predict_result = unpickled_data.predict(feature_array_test)
 
         #precision
-        precision = metrics.precision_score(predict_result,labels_array_test ,average='weighted')
+        precision = metrics.precision_score(predict_result,labels_array_test ,average='weighted', labels=np.unique(predict_result))
+        # print(precision)
         #recall
 
-        recall = metrics.recall_score(predict_result,labels_array_test,average='weighted')
-
+        recall = metrics.recall_score(predict_result,labels_array_test,average='weighted',labels=np.unique(predict_result))
+        # print(recall)
 
         #f score
 
         f_score = 2*(precision*recall)/(precision+recall)
-
+        # print(f_score)
         labels = [  'Precision', 'Recall', 'F-Score']
         default_items = [precision,recall,f_score]
         data = {
@@ -128,6 +132,16 @@ def predict(request,*arg,**kargs):
         predict = unpickled_data.predict(value_for_predict)
 
         int_data = int(np.asarray(predict))
+
+        result = {
+        "data":int_data,
+
+        }
+        return JsonResponse(result)
+def comment(request,*arg,**kargs):
+    if request.method == "GET":
+        comment = request.GET["comment"]
+
 
         result = {
         "data":int_data,
