@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import HttpResponse
 import requests
 from .train import *
 import codecs, json
@@ -15,7 +16,7 @@ with open('classify_data.pickle', 'rb') as pickle_saved_data:
 
 
 
-   
+
 def index(request):
     return render(request,'index.html')
 

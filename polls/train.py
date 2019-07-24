@@ -42,7 +42,7 @@ def SPLITDOCUMENT():
         return_string = data_preprocessing(data)
         each_docs = return_string.split()
         string_after_remove_word=stop_word_remove(each_docs)
-        print(string_after_remove_word)
+        # print(string_after_remove_word)
         data_with_split.append(string_after_remove_word)
     return data_with_split  # it returns arr of each docs with spleted words
 

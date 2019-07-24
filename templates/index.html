@@ -2,43 +2,39 @@
 
 
 <script type="text/javascript">
-$(document).ready(function(){
-    $("select.country").change(function(){
-        var selectedCountry = $(this).children("option:selected").val();
-        alert("You have selected the country - " + selectedCountry);
-    });
-
-
 {%block jquery%}
+
 $("#text_comment").on('keyup', function (e) {
     if (e.keyCode == 13) {
-        // Do something
-document.getElementById("comment_print").innerHTML = "kslajd";  
-var comment = $("#text_comment").val();
-var endpoint = '/comment/'
-var default_data = []
-var labels = []
-$.ajax({
-  method : "GET",
-  url : endpoint,
-  data: {
-    "test_data":comment
-  },
-  success:function(data){
-    comment = data.comment
+        // Do something 
+console.log('sdsdksajds');
+document.getElementById("#comment_print").innerHTML = 'hello';
+
+// var comment = $("#text_comment").val();
+// var endpoint = '/comment/'
+// var default_data = []
+
+// $.ajax({
+//   method : "GET",
+//   url : endpoint,
+//   data: {
+//     "test_data":comment
+//   },
+//   success:function(data){
+//     comment = data.comment
     
-    // string_labels = JSON.stringify(labels)
-    // string_accuracy = JSON.stringify(accuracy)
+//     // string_labels = JSON.stringify(labels)
+//     // string_accuracy = JSON.stringify(accuracy)
 
-    document.getElementById("precision").innerHTML = accuracy[0]*100+" %";
+//     document.getElementById("precision").innerHTML = accuracy[0]*100+" %";
   
-    },
-  error:function(error_data){
-    console.log("error")
-    console.log(error_data)
-  }
+//     },
+//   error:function(error_data){
+//     console.log("error")
+//     console.log(error_data)
+//   }
 
-});
+// });
 }
 
 });
@@ -121,14 +117,15 @@ return false;
 {%endblock%}
 </script>
   {% block content %}
-{% load static%}
-  <body style="">
+{% load static %}
+  <body>
     <div class="container">
       <div class="row">
-<h2 style="text-align:center; color:red; opacity:.7;">नेपाली वाक्यहरुको  भावनत्मक विस्लेसण :)</h4>
+<h2 style="text-align:center; color:red; opacity:.7;">नेपाली वाक्यहरुको  भावनत्मक विस्लेसण :)</h2>
       </div>
 
     </div>
+
     <div class="container">
       <div class="row">
 <h3 style="text-align:center; color:blue; opacity:.7;">सकारत्मक, नकारत्मक, तटस्थ </h3><br>
@@ -210,7 +207,6 @@ theory. Initally we Use four thousand data.}</p>
 
 
     </div>
-      </div>
     <hr>
   <div class="container">
     <div class="row">
@@ -219,9 +215,12 @@ theory. Initally we Use four thousand data.}</p>
 
 </div>
     </div>
+    <div class="container">
     <div class="col-md-12" >
-      <img style="width:100% ;height:500px; margin: 10px; border-radius: .3em; " class="img-thumbnail" src="{% static 'img/123.jpg' %}" alt="positive">
       <p style="color: balck; opacity: 0.6; font-size: 20px;">Comments</p>
+      <img style="width:100% ;height:500px; margin: 10px; border-radius: .3em; " class="img-thumbnail" src="{% static 'img/123.jpg' %}" alt="positive">
+
+       
       <div class="form-group">
       <input type="text" name="comment" id="text_comment" class="form-control">
       </div>
@@ -229,10 +228,10 @@ theory. Initally we Use four thousand data.}</p>
       <small>kljdsad jdskajd sadjskdjsa</small>
     </div>
   </div>
+
   <div class="footer">
     <div class="row">
 
-        <!-- <a href="{% url aplication %}" class="btn btn-default">Click here</a> -->
        <center style="height: 50px;width: 100%; background-color: red; color: white; text-align: center; font-weight: bold; padding: 10px" id="date">
 
 
