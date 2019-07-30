@@ -36,10 +36,11 @@ def testfunction(request ,*arg,**kwarg):
         labels_array_test =  labels[features_taken_len:]
         naive_byes = GaussianNB()  # create  object  from  GaussianNb  class
         TrainData = naive_byes.fit(feature_array_train, labels_array_train)
-
-        classifier_data = open("classify_data.pickle", "wb")
-        pickle.dump(TrainData, classifier_data)
-        classifier_data.close()
+        if __name__ == '__main__':
+            classifier_data = open("classify_data.pickle", "wb")
+            pickle.dump(TrainData, classifier_data)
+            classifier_data.close()
+            
         dict_for_idf = {}
         def count_each_word_each_doc():
             i = 1

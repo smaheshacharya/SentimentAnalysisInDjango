@@ -3,6 +3,41 @@
 
 <script type="text/javascript">
 {%block jquery%}
+
+$("#text_comment").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+        // Do something 
+console.log('sdsdksajds');
+document.getElementById("#comment_print").innerHTML = 'hello';
+
+// var comment = $("#text_comment").val();
+// var endpoint = '/comment/'
+// var default_data = []
+
+// $.ajax({
+//   method : "GET",
+//   url : endpoint,
+//   data: {
+//     "test_data":comment
+//   },
+//   success:function(data){
+//     comment = data.comment
+    
+//     // string_labels = JSON.stringify(labels)
+//     // string_accuracy = JSON.stringify(accuracy)
+
+//     document.getElementById("precision").innerHTML = accuracy[0]*100+" %";
+  
+//     },
+//   error:function(error_data){
+//     console.log("error")
+//     console.log(error_data)
+//   }
+
+// });
+}
+
+});
 $("#select").change(function(){
 var test = $("#select option:selected").val();
 var endpoint = '/testfunction/'
@@ -86,17 +121,16 @@ return false;
   <body>
     <div class="container">
       <div class="row">
-        <center><a href="{% url 'blog' %}" class="btn btn-default">Application</a></center>
-<h2 style="text-align:center; color:red; opacity:.7;">नेपाली वाक्यहरुको  भावनत्मक विस्लेसण :)</h2>
-
+        <center><a href="{% url 'blog' %}" class="btn btn-default">Blog</a></center>
+<h2 style="text-align:center; color:gray; opacity:.7;">नेपाली वाक्यहरुको  भावनत्मक विस्लेसण :)</h2>
       </div>
 
     </div>
 
     <div class="container">
       <div class="row">
-<h3 style="text-align:center; color:blue; opacity:.7;">सकारत्मक, नकारत्मक, तटस्थ </h3><br>
-<p style="text-align:center; color:red;">{In this sentiment anlysis project we use Naive Bayes classification algorithm which is based on
+<h3 style="text-align:center; color:gray; opacity:.7;">सकारत्मक, नकारत्मक, तटस्थ </h3><br>
+<p style="text-align:center; color:gray;">{In this sentiment anlysis project we use Naive Bayes classification algorithm which is based on
   conditional probability
 theory. Initally we Use four thousand data.}</p>
       </div>
@@ -174,10 +208,9 @@ theory. Initally we Use four thousand data.}</p>
 
 
     </div>
-   
+    <hr>
   <div class="container">
     <div class="row">
-       <hr>
 <div class="col-md-6 col-sm-6 col-xs-6">
   <canvas id="myChart" width="50" height="30"></canvas>
 
@@ -187,7 +220,7 @@ theory. Initally we Use four thousand data.}</p>
   <div class="footer">
     <div class="row">
 
-       <center style="height: 50px;width: 100%; background-color: red; color: white; text-align: center; font-weight: bold; padding: 10px" id="date">
+       <center style="height: 50px;width: 100%; background-color: gray; color: white; text-align: center; font-weight: bold; padding: 10px" id="date">
 
 
   </center>

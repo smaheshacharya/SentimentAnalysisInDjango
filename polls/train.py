@@ -14,11 +14,12 @@ import re
 global labels
 now = str(datetime.datetime.now())
 
-df = pd.read_csv('merge.csv', delimiter=',', names=['Data', 'Label']);
+df = pd.read_csv('mergeData.csv', delimiter=',', names=['Data', 'Label']);
 # print(df)
 first_col = df.ix[1:, 0]
 # print(first_row)
 second_col = df.ix[1:, 1]
+second_col = second_col.fillna(0) #preprocess data to handle NaN
 # print(second_row)
 data_with_split = []
 each_docs = []
