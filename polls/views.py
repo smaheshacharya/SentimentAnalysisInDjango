@@ -141,7 +141,8 @@ def predict(request,*arg,**kargs):
         idf_value_of_input_data = input_idf(search_word)
 
         tfidf_input_vec = [a * b for a, b in zip(tf_value_of_input_data, idf_value_of_input_data)]
-
+        with open('classify_data.pickle', 'rb') as pickle_saved_data:
+            unpickled_data = pickle.load(pickle_saved_data)
         value_for_predict = np.array(tfidf_input_vec).reshape(1,-1)
         predict = unpickled_data.predict(value_for_predict)
 
