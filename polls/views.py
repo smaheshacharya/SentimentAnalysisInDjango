@@ -28,23 +28,23 @@ def testfunction(request ,*arg,**kwarg):
         test_percent = int(data_from)
         # print(test_percent)
         features, labels, array_length = feature_labels()
-        features_taken_len = int(array_length * test_percent / 100)  # 80% of data make for train 20% remening data for testing
+        features_taken_len = int((array_length * test_percent)/ 100)  # 80% of data make for train 20% remening data for testing
         feature_array_train = features[:features_taken_len]  # 80% of data make for train 20% remening data for testing
         labels_array_train = labels[:features_taken_len]
         feature_array_test = features[features_taken_len:]  # 80% of data make for train 20% remening data for testing
-        # print(set(feature_array_train)-set(feature_array_test))
+        labels_array_test =  labels[features_taken_len:]
+        # feature_array_train, feature_array_test, labels_array_train, labels_array_test = train_test_split(features,labels, test_size=0.33, random_state=42)
+
         labels_array_test =  labels[features_taken_len:]
         naive_byes = GaussianNB()  # create  object  from  GaussianNb  class
         TrainData = naive_byes.fit(feature_array_train, labels_array_train)
-        if __name__ == '__main__':
-            classifier_data = open("classify_data.pickle", "wb")
-            pickle.dump(TrainData, classifier_data)
-            classifier_data.close()
-            
+        classifier_data = open("classify_data.pickle", "wb")
+        pickle.dump(TrainData, classifier_data)
+        classifier_data.close()
         dict_for_idf = {}
         def count_each_word_each_doc():
             i = 1
-            for each_line_for_idf in word_arrays:
+            for each_line_for_idf in word_lists:
                 dict_for_idf[i] = {}
                 count_each_word_for_idf = Counter(each_line_for_idf)
                 for each_word_of_line_for_idf in each_line_for_idf:
