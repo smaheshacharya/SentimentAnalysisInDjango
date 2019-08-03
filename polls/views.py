@@ -11,8 +11,7 @@ from numpyencoder import NumpyEncoder
 
 
 # import matplotlib.pyplot as plt
-with open('classify_data.pickle', 'rb') as pickle_saved_data:
-    unpickled_data = pickle.load(pickle_saved_data)
+
 
 
 
@@ -26,16 +25,26 @@ def testfunction(request ,*arg,**kwarg):
     if request.method == "GET":
         data_from = request.GET["test_data"]
         test_percent = int(data_from)
-        # print(test_percent)
+        if test_percent == 60:
+            test_size = 0.44
+        elif test_percent == 70:
+            test_size = 0.33
+        elif test_percent == 80:
+            test_size = 0.22
+        elif test_percent == 90:
+            test_size = 0.11
+        else:
+            test_size = 0.33
+        print(test_size)
         features, labels, array_length = feature_labels()
-        features_taken_len = int((array_length * test_percent)/ 100)  # 80% of data make for train 20% remening data for testing
-        feature_array_train = features[:features_taken_len]  # 80% of data make for train 20% remening data for testing
-        labels_array_train = labels[:features_taken_len]
-        feature_array_test = features[features_taken_len:]  # 80% of data make for train 20% remening data for testing
-        labels_array_test =  labels[features_taken_len:]
-        # feature_array_train, feature_array_test, labels_array_train, labels_array_test = train_test_split(features,labels, test_size=0.33, random_state=42)
+        # features_taken_len = int((array_length * test_percent)/ 100)  # 80% of data make for train 20% remening data for testing
+        # feature_array_train = features[:features_taken_len]  # 80% of data make for train 20% remening data for testing
+        # labels_array_train = labels[:features_taken_len]
+        # feature_array_test = features[features_taken_len:]  # 80% of data make for train 20% remening data for testing
+        # labels_array_test =  labels[features_taken_len:]
+        feature_array_train, feature_array_test, labels_array_train, labels_array_test = train_test_split(features,labels, test_size=test_size, random_state=42)
 
-        labels_array_test =  labels[features_taken_len:]
+        # labels_array_test =  labels[features_taken_len:]
         naive_byes = GaussianNB()  # create  object  from  GaussianNb  class
         TrainData = naive_byes.fit(feature_array_train, labels_array_train)
         classifier_data = open("classify_data.pickle", "wb")
@@ -56,7 +65,8 @@ def testfunction(request ,*arg,**kwarg):
 
         # naive_byes_test = GaussianNB()
         # TestData = naive_byes_test.partial_fit(feature_array_test, labels_array_test, classes=np.unique(labels_array_test))
-
+        with open('classify_data.pickle', 'rb') as pickle_saved_data:
+            unpickled_data = pickle.load(pickle_saved_data)
 
             #predict data using pickle file
         predict_result = unpickled_data.predict(feature_array_test)
