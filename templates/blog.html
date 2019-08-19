@@ -9,39 +9,16 @@
       
       <img style="width:100% ;height:500px; margin: 10px; border-radius: .3em; " class="img-thumbnail" src="{% static 'img/123.jpg' %}" alt="positive">
       <p style="color: balck; opacity: 0.6; font-size: 20px;">Comments</p>
-     
-      <h4>कती राम्रो फोटो खिचेको ।</h4>
-     <small>Mahesh Acharya</small>
-      <br>
-      <br>
-      <hr>
+      {% for data in data %}
+        {{data}}<hr>
+      {% endfor  %}
+    <form method='get' action='/comment/'>{% csrf_token %}
+      <input type="text" name="comment" id="comment">
+      <button>Submit</button>
+    </form>
 
-       <h4>आहा, ramro फोटो ।</h4>
-       <small>Kanchan Bhatta</small>
-       <br>
-       <br>
-       <hr>
 
-       <h4>हाह ,कस्तो बाईक । </h4>
-       <small>Ashmit Gautam</small>
-       <br>
-       <br>
-       <hr>
-       <hr>
-
-      <h4>फोटो राम्रो छ तर एडिट अलि बडी भयछ ।</h4>
-      <small>Bishal Khadka</small>
-      <br>
-      <br>
-      <hr>
-
-       <h4>अलि फ्रमे मिलेन  फोटोको । </h4>
-      <small>Karuna Bhatta</small>
-      <br>
-      <br>
-      <hr>
-
-      <span style="color: gray; opacity: .6;"><h3>Positive<i><img style="width:25px;height: auto;" src="{% static 'img/neu.png' %}" alt="neutrl"></i></h3><span>60%</span><h3>Negative<i><img style="width:25px;height: auto;" src="{% static 'img/neg.png' %}" alt="neutrl"></i></h3><span>20%</span><h3>Neutral<i><img style="width:25px;height: auto;" src="{% static 'img/neu.png' %}" alt="neutrl"></i></h3><span>20%</span></span>
+      <span style="color: gray; opacity: .6; display: inline-block;"><h3>Positive<i><img style="width:25px;height: auto;" src="{% static 'img/neu.png' %}" alt="neutrl"></i></h3><span>{{pos}}</span><h3>Negative<i><img style="width:25px;height: auto;" src="{% static 'img/neg.png' %}" alt="neutrl"></i></h3><span>{{neg}}</span><h3>Neutral<i><img style="width:25px;height: auto;" src="{% static 'img/neu.png' %}" alt="neutrl"></i></h3><span>{{neut}}</span></span>
     </div>
   </div>
   <div class="container">

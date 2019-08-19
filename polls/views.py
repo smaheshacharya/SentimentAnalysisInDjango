@@ -7,7 +7,8 @@ from django.http import HttpResponse
 import requests
 from .train import *
 import codecs, json
-from numpyencoder import NumpyEncoder
+from .models import Question
+# from numpyencoder import NumpyEncoder
 
 
 # import matplotlib.pyplot as plt
@@ -156,10 +157,41 @@ def predict(request,*arg,**kargs):
 def comment(request,*arg,**kargs):
     if request.method == "GET":
         comment = request.GET["comment"]
+        if comment == '':
+            print("enter commnet")
+        else:   
+            foo_instance = Question.objects.create(question_text=comment)
+            foo_instance.save() 
+    qs = Question.objects.only('question_text')
+    data = [ str(question_text) for question_text in qs]
+    data_len = len(data)
+    predict = []
+    for i in range(0,data_len):
+        
+        data_con = data[i]
+        tf_value_of_input_data = input_tf(data_con)
+        idf_value_of_input_data = input_idf(data_con)
+        tfidf_input_vec = [a * b for a, b in zip(tf_value_of_input_data, idf_value_of_input_data)]
+        with open('classify_data.pickle', 'rb') as pickle_saved_data:
+            unpickled_data = pickle.load(pickle_saved_data)
+        value_for_predict = np.array(tfidf_input_vec).reshape(1,-1)
+        predict.append(unpickled_data.predict(value_for_predict))
+    total = len(predict)
+    neg, pos, neutral = 0,0,0
+    for values_print in predict:    
+        if values_print == 0:
+            neg = neg + 1
+        elif values_print == 1:
+            pos = pos + 1
+        elif values_print == 2:
+            neutral = neutral + 1
+        else:
+            pass
+    positive_rel = (pos/total)*100
+    negative_rel = (neg/total)*100
+    neutral_rel = (neutral/total)*100
+    return render(request, 'blog.html',{'data' : data, 'pos':positive_rel,'neg':negative_rel,'neut':neutral_rel})
 
 
-        result = {
-        "data":int_data,
 
-        }
-        return JsonResponse(result)
+
